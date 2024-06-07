@@ -26,7 +26,4 @@ public class CardIssuer implements Serializable, Cloneable {
     @NotNull
     @NotEmpty
     private String name;
-
-    //todo: implement toString, hash, equal and clone
-
 }

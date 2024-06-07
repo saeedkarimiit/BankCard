@@ -2,18 +2,14 @@ package ir.isc.BankCard;
 
 import ir.isc.BankCard.dto.CardDto;
 import ir.isc.BankCard.dto.CardIssuerDto;
-import ir.isc.BankCard.dto.CreateCardRequestDto;
 import ir.isc.BankCard.dto.PersonDto;
-import ir.isc.BankCard.services.service.CardIssuerService;
 import ir.isc.BankCard.services.service.CardService;
+import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
-
-import java.util.ArrayList;
-import java.util.List;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -22,58 +18,59 @@ public class BankCardApplicationTests {
 	@Autowired
 	private CardService cardService;
 
-	@Autowired
-	private CardIssuerService cardIssuerService;
 
 	@Test
-	public void firstTest() throws Exception {
-		System.out.println("hello");
-//		CreateCardRequestDto cardRequestDto = new CreateCardRequestDto();
-//		List<CardDto> cardDtos = new ArrayList<>();
+	public void addCorrectCard() throws Exception {
+        CardIssuerDto mellatIssuer = new CardIssuerDto();
+        mellatIssuer.setCode("222222");
+        mellatIssuer.setName("Mellat");
 
-//		PersonDto personDto = new PersonDto();
-//		personDto.setNationalCode("4679853875");
-//		personDto.setName("saeed");
-//		personDto.setLastName("karimi");
-//		personDto.setAddress("roodaki");
-//		personDto.setPhone("09015412764");
+        PersonDto personDto = new PersonDto();
+        personDto.setNationalCode("2222222222");
+        personDto.setName("majid");
+        personDto.setLastName("majidi");
+        personDto.setPhone("09122301111");
+        personDto.setAddress("terhran-enghelab");
 
-		List<CardIssuerDto> cardIssuerDtoList = new ArrayList<>();
+        CardDto cardDto = new CardDto();
+        cardDto.setType(2);
+        cardDto.setPan("8888888888888888");
+        cardDto.setAccountNumber("4444444444");
+        cardDto.setExpireDate("06/11");
+        cardDto.setCardStatus(1);
+        cardDto.setCardIssuerDto(mellatIssuer);
+        cardDto.setPersonDto(personDto);
 
-		CardIssuerDto cardIssuerDto = new CardIssuerDto();
-		cardIssuerDto.setCode("111111");
-		cardIssuerDto.setName("melli");
-		cardIssuerDtoList.add(cardIssuerDto);
+        CardDto result = cardService.create(cardDto);
 
-		cardIssuerDto = new CardIssuerDto();
-		cardIssuerDto.setCode("222222");
-		cardIssuerDto.setName("shahr");
-		cardIssuerDtoList.add(cardIssuerDto);
-
-		cardIssuerDto = new CardIssuerDto();
-		cardIssuerDto.setCode("333333");
-		cardIssuerDto.setName("mellat");
-		cardIssuerDtoList.add(cardIssuerDto);
-
-		List<CardIssuerDto> result = cardIssuerService.createAll(cardIssuerDtoList);
-
-
-//		CardDto cardDto = new CardDto();
-//		cardDto.setPan("1234567891234567");
-//		cardDto.setAccountNumber("1234567891");
-//		cardDto.setType(1);
-//		cardDto.setCardStatus(1);
-//		cardDto.setExpireDate("08/07");
-//		cardDto.setPersonDto(personDto);
-//		cardDto.setCardIssuerDto(cardIssuerDto);
-
-//		cardDtos.add(cardDto);
-//
-//		cardRequestDto.setCardDtos(cardDtos);
-
-//		List<CardDto> temp = cardService.createCard(cardDto);
-
-		System.out.println("finish");
+        Assert.assertNotNull(result);
 	}
+
+    @Test
+    public void addRepeatedCard() throws Exception {
+        CardIssuerDto mellatIssuer = new CardIssuerDto();
+        mellatIssuer.setCode("222222");
+        mellatIssuer.setName("Mellat");
+
+        PersonDto personDto = new PersonDto();
+        personDto.setNationalCode("2222222222");
+        personDto.setName("majid");
+        personDto.setLastName("majidi");
+        personDto.setPhone("09122301111");
+        personDto.setAddress("terhran-enghelab");
+
+        CardDto cardDto = new CardDto();
+        cardDto.setType(1);
+        cardDto.setPan("8888888888888888");
+        cardDto.setAccountNumber("4444444444");
+        cardDto.setExpireDate("06/11");
+        cardDto.setCardStatus(1);
+        cardDto.setCardIssuerDto(mellatIssuer);
+        cardDto.setPersonDto(personDto);
+
+        CardDto result = cardService.create(cardDto);
+
+        Assert.assertNotNull(result);
+    }
 
 }

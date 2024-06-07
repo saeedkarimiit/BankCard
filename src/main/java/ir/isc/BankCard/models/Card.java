@@ -4,6 +4,7 @@ import ir.isc.BankCard.enums.CardStatus;
 import ir.isc.BankCard.enums.CardType;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 import lombok.*;
 
@@ -34,13 +35,12 @@ public class Card implements Serializable, Cloneable {
 
     @NotNull
     @NotEmpty
-    //todo: custom valid
+    @Pattern(regexp = "\\d{2}/\\d{2}")
     private String expireDate;
 
     @NotNull
     private CardStatus cardStatus;
 
-    //todo: remove
     @NotNull
     Person person;
 
